@@ -1,7 +1,5 @@
 package com.example.chatbox
 
-package com.example.chatbox
-
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -15,7 +13,7 @@ sealed class AuthState {
     data class Error(val message: String) : AuthState()
 }
 
-data class User(val uid: String = "", val username: String = "", val email: String = "")
+
 
 class AuthViewModel : ViewModel() {
     
