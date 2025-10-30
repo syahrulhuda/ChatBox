@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.chatbox.ui.theme.ChatBoxTheme
 
+import androidx.lifecycle.viewmodel.compose.viewModel
+
 class AuthActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,7 +30,7 @@ class AuthActivity : ComponentActivity() {
 }
 
 @Composable
-fun AuthScreen() {
+fun AuthScreen(authViewModel: AuthViewModel = viewModel()) {
     var isLogin by remember { mutableStateOf(true) }
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -71,7 +73,13 @@ fun AuthScreen() {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = { /* TODO: Handle login/register */ },
+            onClick = { 
+                if (isLogin) {
+                    authViewModel.login(email, password)
+                } else {
+                    authViewModel.register(email, password, username)
+                }
+            },
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(text = if (isLogin) "Login" else "Register")
