@@ -35,13 +35,21 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserListScreen() {
+fun UserListScreen(mainViewModel: MainViewModel = viewModel()) {
+    val users by mainViewModel.users.collectAsState()
+    var searchQuery by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("Users") },
                 actions = {
-                    IconButton(onClick = { /* TODO: Handle logout */ }) {
+                    IconButton(onClick = { 
+                        mainViewModel.logout()
+                        context.startActivity(Intent(context, AuthActivity::class.java))
+                        (context as? ComponentActivity)?.finish()
+                    }) {
                         Icon(Icons.Default.ExitToApp, contentDescription = "Logout")
                     }
                 }
@@ -54,13 +62,21 @@ fun UserListScreen() {
                 .padding(it)
         ) {
             TextField(
-                value = "",
-                onValueChange = {},
+                value = searchQuery,
+                onValueChange = {
+                    searchQuery = it
+                    mainViewModel.searchUsers(it)
+                },
                 label = { Text("Search users") },
                 modifier = Modifier.fillMaxWidth()
             )
             LazyColumn {
-                // TODO: Display list of users
+                items(users) { user ->
+                    ListItem(
+                        headlineContent = { Text(user.username) },
+                        modifier = Modifier.clickable { /* TODO: Navigate to chat */ }
+                    )
+                }
             }
         }
     }
