@@ -74,7 +74,12 @@ fun UserListScreen(mainViewModel: MainViewModel = viewModel()) {
                 items(users) { user ->
                     ListItem(
                         headlineContent = { Text(user.username) },
-                        modifier = Modifier.clickable { /* TODO: Navigate to chat */ }
+                        modifier = Modifier.clickable { 
+                            val intent = Intent(context, ChatActivity::class.java)
+                            intent.putExtra("recipientId", user.uid)
+                            intent.putExtra("recipientUsername", user.username)
+                            context.startActivity(intent)
+                        }
                     )
                 }
             }

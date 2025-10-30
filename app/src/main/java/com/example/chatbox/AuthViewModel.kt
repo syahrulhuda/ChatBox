@@ -15,7 +15,7 @@ sealed class AuthState {
     data class Error(val message: String) : AuthState()
 }
 
-data class User(val username: String = "", val email: String = "")
+data class User(val uid: String = "", val username: String = "", val email: String = "")
 
 class AuthViewModel : ViewModel() {
     

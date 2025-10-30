@@ -25,7 +25,7 @@ class MainViewModel : ViewModel() {
                 for (snapshot in dataSnapshot.children) {
                     val user = snapshot.getValue(User::class.java)
                     if (user != null && snapshot.key != currentUser.uid) {
-                        userList.add(user)
+                        userList.add(user.copy(uid = snapshot.key ?: ""))
                     }
                 }
                 _users.value = userList
