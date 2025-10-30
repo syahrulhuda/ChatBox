@@ -27,6 +27,9 @@
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.ChatBox" />
+        <activity
+            android:name=".ChatActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
