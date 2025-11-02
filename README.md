@@ -73,6 +73,24 @@ Aplikasi akan dibangun dan diinstal pada perangkat atau emulator yang dipilih.
 
 ---
 
+## Pemecahan Masalah Umum
+
+### Error: `Could not find lifecycleViewmodelCompose`
+
+Jika Anda mengalami error seperti `Could not find lifecycleViewmodelCompose` saat membangun proyek, ini berarti versi untuk `lifecycle-viewmodel-compose` belum dideklarasikan di file `gradle/libs.versions.toml`.
+
+**Solusi:**
+
+Tambahkan baris berikut di bagian `[versions]` pada file `gradle/libs.versions.toml`:
+
+```toml
+lifecycleViewmodelCompose = "2.9.4"
+```
+
+Pastikan versi ini konsisten dengan `lifecycleRuntimeKtx` yang sudah ada. Setelah menambahkan baris ini, lakukan "Sync Project with Gradle Files" di Android Studio.
+
+---
+
 **Catatan Penting:**
 
 *   Jangan pernah membagikan file `google-services.json` Anda secara publik atau mengunggahnya ke repositori Git publik. File ini berisi informasi sensitif tentang proyek Firebase Anda.
