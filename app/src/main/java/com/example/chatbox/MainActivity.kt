@@ -1,11 +1,5 @@
 package com.example.chatbox
 
-data class User(
-    val uid: String = "",
-    val username: String = "",
-    val email: String = ""
-)
-
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity

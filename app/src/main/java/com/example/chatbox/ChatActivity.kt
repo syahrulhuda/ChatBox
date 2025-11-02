@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.chatbox.ui.theme.ChatBoxTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.example.chatbox.User
+
 
 
 data class Message(
