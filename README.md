@@ -18,6 +18,14 @@ Aplikasi ChatBox adalah aplikasi obrolan sederhana yang dibangun menggunakan And
 *   **Obrolan Real-time**: Mengirim dan menerima pesan secara instan.
 *   **Daftar Pengguna**: Melihat daftar pengguna yang terdaftar.
 
+## Struktur Proyek
+
+Proyek ini terdiri dari tiga file aktivitas utama:
+
+*   **`AuthActivity.kt`**: Menangani proses autentikasi pengguna (login dan registrasi). File ini juga mendeklarasikan `data class User` yang digunakan di seluruh aplikasi untuk merepresentasikan data pengguna.
+*   **`MainActivity.kt`**: Menampilkan daftar pengguna yang terdaftar dan memungkinkan pengguna untuk memulai obrolan dengan mereka.
+*   **`ChatActivity.kt`**: Menyediakan antarmuka obrolan real-time antara dua pengguna.
+
 ## Persyaratan
 
 *   Android Studio
@@ -76,6 +84,10 @@ Aplikasi akan dibangun dan diinstal pada perangkat atau emulator yang dipilih.
 
 ## Pemecahan Masalah Umum
 
+### Error: `Redeclaration: data class User`
+
+Error ini terjadi jika `data class User` dideklarasikan lebih dari satu kali di proyek. Untuk menjaga kesederhanaan dan menghindari deklarasi ganda, `data class User` hanya dideklarasikan di `AuthActivity.kt`. Pastikan tidak ada deklarasi `User` di file lain seperti `MainActivity.kt` atau `ChatActivity.kt`, dan tidak ada file `User.kt` terpisah.
+
 ### Error: `Could not find lifecycleViewmodelCompose`
 
 Jika Anda mengalami error seperti `Could not find lifecycleViewmodelCompose` saat membangun proyek, ini berarti versi untuk `lifecycle-viewmodel-compose` belum dideklarasikan di file `gradle/libs.versions.toml`.
@@ -115,15 +127,15 @@ Jika Anda mengalami error `Unresolved reference 'Firebase'` di kode Kotlin Anda,
     implementation(libs.firebase.auth)
     ```
 
-3.  **Perbarui Kode Kotlin Anda (misalnya, `MainActivity.kt`):**
+3.  **Perbarui Kode Kotlin Anda (misalnya, `MainActivity.kt` atau `AuthActivity.kt`):**
     Hapus impor KTX yang tidak lagi diperlukan dan inisialisasi `FirebaseAuth` menggunakan `getInstance()`:
 
     ```kotlin
-    // Hapus impor ini:
+    // Hapus impor ini jika ada:
     // import com.google.firebase.auth.ktx.auth
     // import com.google.firebase.ktx.Firebase
 
-    // Ganti inisialisasi:
+    // Ganti inisialisasi jika menggunakan Firebase.auth:
     // auth = Firebase.auth
     // Dengan:
     auth = FirebaseAuth.getInstance()
