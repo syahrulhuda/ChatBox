@@ -18,16 +18,54 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.chatbox.ui.theme.ChatBoxTheme
-import com.example.chatbox.UserItem
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var database: DatabaseReference
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().getReference("users")
+
         setContent {
             ChatBoxTheme {
-                UserListScreen()
+                val userList = remember { mutableStateListOf<User>() }
+
+                LaunchedEffect(Unit) {
+                    database.addValueEventListener(object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            userList.clear()
+                            for (userSnapshot in snapshot.children) {
+                                val user = userSnapshot.getValue(User::class.java)
+                                if (user != null && user.uid != auth.currentUser?.uid) {
+                                    userList.add(user)
+                                }
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Handle error
+                        }
+                    })
+                }
+
+                UserListScreen(
+                    users = userList,
+                    onSearch = { query ->
+                        // Implement search logic if needed
+                    },
+                    onLogout = {
+                        auth.signOut()
+                        startActivity(Intent(this, AuthActivity::class.java))
+                        finish()
+                    }
+                )
             }
         }
     }
@@ -35,8 +73,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UserListScreen(mainViewModel: MainViewModel = viewModel()) {
-    val users by mainViewModel.users.collectAsState()
+fun UserListScreen(users: List<User>, onSearch: (String) -> Unit, onLogout: () -> Unit) {
     var searchQuery by remember { mutableStateOf("") }
     val context = LocalContext.current
 
@@ -45,11 +82,7 @@ fun UserListScreen(mainViewModel: MainViewModel = viewModel()) {
             TopAppBar(
                 title = { Text("Users") },
                 actions = {
-                    IconButton(onClick = { 
-                        mainViewModel.logout()
-                        context.startActivity(Intent(context, AuthActivity::class.java))
-                        (context as? ComponentActivity)?.finish()
-                    }) {
+                    IconButton(onClick = onLogout) {
                         Icon(Icons.Default.ExitToApp, contentDescription = "Logout")
                     }
                 }
@@ -65,7 +98,7 @@ fun UserListScreen(mainViewModel: MainViewModel = viewModel()) {
                 value = searchQuery,
                 onValueChange = {
                     searchQuery = it
-                    mainViewModel.searchUsers(it)
+                    onSearch(it)
                 },
                 label = { Text("Search users") },
                 modifier = Modifier.fillMaxWidth()
@@ -91,6 +124,6 @@ fun UserListScreen(mainViewModel: MainViewModel = viewModel()) {
 @Composable
 fun UserListScreenPreview() {
     ChatBoxTheme {
-        UserListScreen()
+        UserListScreen(users = listOf(User(username = "User 1"), User(username = "User 2")), onSearch = {}, onLogout = {})
     }
 }

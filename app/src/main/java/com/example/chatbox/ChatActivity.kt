@@ -16,34 +16,85 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.chatbox.ui.theme.ChatBoxTheme
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 
 class ChatActivity : ComponentActivity() {
+
+    private lateinit var database: DatabaseReference
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val recipientId = intent.getStringExtra("recipientId") ?: ""
         val recipientUsername = intent.getStringExtra("recipientUsername") ?: ""
+
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase.getInstance().reference
+
+        val currentUser = auth.currentUser
+        val chatId = getChatId(currentUser?.uid ?: "", recipientId)
+
         setContent {
             ChatBoxTheme {
-                ChatScreen(recipientId = recipientId, recipientUsername = recipientUsername)
+                val messages = remember { mutableStateListOf<Message>() }
+
+                LaunchedEffect(chatId) {
+                    val chatRef = database.child("chats").child(chatId).child("messages")
+                    val messageListener = object : ValueEventListener {
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            messages.clear()
+                            for (messageSnapshot in snapshot.children) {
+                                val message = messageSnapshot.getValue(Message::class.java)
+                                if (message != null) {
+                                    messages.add(message)
+                                }
+                            }
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                            // Handle error
+                        }
+                    }
+                    chatRef.addValueEventListener(messageListener)
+                }
+
+                ChatScreen(
+                    recipientUsername = recipientUsername,
+                    messages = messages,
+                    onSendMessage = { text ->
+                        sendMessage(chatId, text)
+                    }
+                )
             }
+        }
+    }
+
+    private fun sendMessage(chatId: String, text: String) {
+        val currentUser = auth.currentUser
+        val message = Message(
+            senderId = currentUser?.uid ?: "",
+            text = text,
+            timestamp = System.currentTimeMillis()
+        )
+        database.child("chats").child(chatId).child("messages").push().setValue(message)
+    }
+
+    private fun getChatId(userId1: String, userId2: String): String {
+        return if (userId1 > userId2) {
+            "$userId1-$userId2"
+        } else {
+            "$userId2-$userId1"
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChatScreen(chatViewModel: ChatViewModel = viewModel(), recipientId: String, recipientUsername: String) {
-    val messages by chatViewModel.messages.collectAsState()
+fun ChatScreen(recipientUsername: String, messages: List<Message>, onSendMessage: (String) -> Unit) {
     var text by remember { mutableStateOf("") }
     val currentUser = FirebaseAuth.getInstance().currentUser
-
-    val chatId = currentUser?.uid?.let { chatViewModel.getChatId(it, recipientId) } ?: ""
-    LaunchedEffect(chatId) {
-        chatViewModel.loadMessages(chatId)
-    }
 
     Scaffold(
         topBar = {
@@ -77,7 +128,7 @@ fun ChatScreen(chatViewModel: ChatViewModel = viewModel(), recipientId: String, 
                     modifier = Modifier.weight(1f)
                 )
                 IconButton(onClick = { 
-                    chatViewModel.sendMessage(chatId, text)
+                    onSendMessage(text)
                     text = ""
                 }) {
                     Icon(Icons.Default.Send, contentDescription = "Send")

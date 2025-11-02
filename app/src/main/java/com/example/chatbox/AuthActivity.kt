@@ -12,40 +12,74 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.chatbox.ui.theme.ChatBoxTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class AuthActivity : ComponentActivity() {
+
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        auth = FirebaseAuth.getInstance()
+
         setContent {
             ChatBoxTheme {
-                AuthScreen()
+                AuthScreen(
+                    onLogin = { email, password ->
+                        loginUser(email, password)
+                    },
+                    onRegister = { email, password, username ->
+                        registerUser(email, password, username)
+                    }
+                )
             }
         }
+    }
+
+    private fun loginUser(email: String, password: String) {
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
+    }
+
+    private fun registerUser(email: String, password: String, username: String) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    val firebaseUser = auth.currentUser
+                    val uid = firebaseUser?.uid
+                    if (uid != null) {
+                        val database = FirebaseDatabase.getInstance().getReference("users")
+                        val user = User(uid, username, email)
+                        database.child(uid).setValue(user)
+                    }
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                } else {
+                    Toast.makeText(baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT).show()
+                }
+            }
     }
 }
 
 @Composable
-fun AuthScreen(authViewModel: AuthViewModel = viewModel()) {
+fun AuthScreen(onLogin: (String, String) -> Unit, onRegister: (String, String, String) -> Unit) {
     var isLogin by remember { mutableStateOf(true) }
     var username by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val context = LocalContext.current
-
-    val authState by authViewModel.authState.collectAsState()
-
-    when (authState) {
-        is AuthState.Success -> {
-            context.startActivity(Intent(context, MainActivity::class.java))
-            (context as? ComponentActivity)?.finish()
-        }
-        is AuthState.Error -> {
-            Toast.makeText(context, (authState as AuthState.Error).message, Toast.LENGTH_SHORT).show()
-        }
-        else -> {}
-    }
+    var authState by remember { mutableStateOf<AuthState>(AuthState.Unauthenticated) }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
@@ -89,10 +123,11 @@ fun AuthScreen(authViewModel: AuthViewModel = viewModel()) {
 
             Button(
                 onClick = {
+                    authState = AuthState.Loading
                     if (isLogin) {
-                        authViewModel.login(email, password)
+                        onLogin(email, password)
                     } else {
-                        authViewModel.register(email, password, username)
+                        onRegister(email, password, username)
                     }
                 },
                 modifier = Modifier.fillMaxWidth(),
