@@ -22,6 +22,12 @@ import com.example.chatbox.ui.theme.ChatBoxTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
+data class User(
+    val uid: String = "",
+    val username: String = "",
+    val email: String = ""
+)
+
 class MainActivity : ComponentActivity() {
 
     private lateinit var database: DatabaseReference
