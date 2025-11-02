@@ -32,11 +32,9 @@ Ikuti langkah-langkah di bawah ini untuk menyiapkan dan menjalankan proyek ChatB
 Pertama, clone repositori ini ke mesin lokal Anda menggunakan Git:
 
 ```bash
-git clone <URL_REPOSITORI_ANDA>
+git clone git@github.com:syahrulhuda/ChatBox.git
 cd ChatBox
 ```
-
-Ganti `<URL_REPOSITORI_ANDA>` dengan URL repositori Git yang sebenarnya.
 
 ### 2. Dapatkan `google-services.json`
 
@@ -47,7 +45,7 @@ Aplikasi ini menggunakan Firebase untuk otentikasi dan database. Anda perlu meng
 1.  **Minta file dari grup WA OTHING PROJECTS.** File ini berisi kredensial yang diperlukan aplikasi untuk berkomunikasi dengan Firebase.
 2.  Setelah Anda mendapatkan file `google-services.json`, **salin file tersebut ke direktori `app/`** di dalam proyek Anda.
 
-    Contoh: `d:\AndroidStudioProjects\ChatBox\app\google-services.json`
+    Contoh: `D:\AndroidStudioProjects\ChatBox\app\google-services.json`
 
     Pastikan nama file adalah `google-services.json` (huruf kecil semua).
 
