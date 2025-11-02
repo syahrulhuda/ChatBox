@@ -12,11 +12,12 @@ Aplikasi ChatBox adalah aplikasi obrolan sederhana yang dibangun menggunakan And
 *   **Firebase Bill of Materials (BoM)**: Untuk mengelola versi dependensi Firebase secara konsisten.
 *   **Firebase SDKs (Non-KTX)**: Menggunakan SDK Firebase standar tanpa ekstensi KTX, karena fungsionalitas Kotlin telah diintegrasikan langsung ke dalam SDK utama.
 
-## Fitur Aplikasi
+## Fitur Utama
 
-*   **Autentikasi Pengguna**: Pengguna dapat mendaftar dan masuk menggunakan email dan kata sandi.
-*   **Obrolan Real-time**: Mengirim dan menerima pesan secara instan.
-*   **Daftar Pengguna**: Melihat daftar pengguna yang terdaftar.
+*   **Autentikasi Pengguna**: Pendaftaran dan login dengan email/kata sandi.
+*   **Obrolan Real-time**: Kirim dan terima pesan secara instan.
+*   **Daftar Pengguna**: Lihat pengguna terdaftar dan mulai obrolan.
+*   **UI Adaptif**: Mendukung tema terang/gelap sistem dan warna dinamis (Android 12+).
 
 ## Struktur Proyek
 
@@ -79,6 +80,21 @@ Setelah sinkronisasi Gradle selesai dan tidak ada kesalahan, Anda dapat menjalan
 3.  Pilih perangkat atau emulator target Anda.
 
 Aplikasi akan dibangun dan diinstal pada perangkat atau emulator yang dipilih.
+
+---
+
+## Cara Berkontribusi
+
+Kami menyambut kontribusi dalam bentuk apapun! Jika Anda ingin berkontribusi pada proyek ini, silakan ikuti langkah-langkah berikut:
+
+1.  Fork repositori ini.
+2.  Buat branch baru untuk fitur atau perbaikan Anda (`git checkout -b feature/nama-fitur` atau `bugfix/nama-perbaikan`).
+3.  Lakukan perubahan Anda dan pastikan kode Anda mengikuti gaya dan konvensi proyek.
+4.  Tulis pesan commit yang jelas dan deskriptif.
+5.  Push branch Anda ke repositori forked Anda (`git push origin feature/nama-fitur`).
+6.  Buka Pull Request (PR) ke branch `main` di repositori asli.
+
+Pastikan PR Anda menjelaskan perubahan yang Anda buat dan mengapa perubahan tersebut diperlukan.
 
 ---
 
