@@ -14,8 +14,6 @@ import androidx.compose.ui.unit.dp
 import com.example.chatbox.ui.theme.ChatBoxTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 data class User(
     val uid: String = "",
@@ -38,7 +36,7 @@ class AuthActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        auth = Firebase.auth
+        auth = FirebaseAuth.getInstance()
 
         setContent {
             ChatBoxTheme {

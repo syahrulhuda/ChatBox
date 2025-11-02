@@ -19,8 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.chatbox.ui.theme.ChatBoxTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+
 
 data class Message(
     val senderId: String = "",
@@ -38,7 +37,7 @@ class ChatActivity : ComponentActivity() {
         val recipientId = intent.getStringExtra("recipientId") ?: ""
         val recipientUsername = intent.getStringExtra("recipientUsername") ?: ""
 
-        auth = Firebase.auth
+        auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance().reference
 
         val currentUser = auth.currentUser
@@ -102,7 +101,7 @@ class ChatActivity : ComponentActivity() {
 @Composable
 fun ChatScreen(recipientUsername: String, messages: List<Message>, onSendMessage: (String) -> Unit) {
     var text by remember { mutableStateOf("") }
-    val currentUser = Firebase.auth.currentUser
+    val currentUser = FirebaseAuth.getInstance().currentUser
 
     Scaffold(
         topBar = {
@@ -148,7 +147,7 @@ fun ChatScreen(recipientUsername: String, messages: List<Message>, onSendMessage
 
 @Composable
 fun MessageItem(message: Message, isSentByCurrentUser: Boolean) {
-    val alignment = if (isSentByCurrentUser) Alignment.End else Alignment.Start
+    val alignment = if (isSentByCurrentUser) Alignment.CenterEnd else Alignment.CenterStart
     val backgroundColor = if (isSentByCurrentUser) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.secondaryContainer
 
     Box(
