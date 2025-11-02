@@ -1,47 +1,60 @@
 # ChatBox
 
-A simple chat application for Android, built with Jetpack Compose and Firebase.
+Aplikasi obrolan sederhana untuk Android, dibangun dengan Jetpack Compose dan Firebase.
 
-## Features
+## Fitur
 
-*   User registration and login with Firebase Authentication.
-*   One-to-one chat with other users.
-*   Real-time messaging with Firebase Realtime Database.
+*   Registrasi dan login pengguna dengan Firebase Authentication.
+*   Obrolan satu-ke-satu dengan pengguna lain.
+*   Pesan real-time dengan Firebase Realtime Database.
 
-## Setup Instructions
+## Petunjuk Penyiapan
 
-### 1. Clone the Repository
+### 1. Kloning Repositori
 
-First, clone this repository to your local machine using the following command:
+Pertama, kloning repositori ini ke komputer lokal Anda menggunakan perintah berikut di terminal atau Git Bash:
 
 ```bash
 git clone https://github.com/syahrulhuda/ChatBox.git
 ```
 
-### 2. Firebase Setup
+Setelah kloning selesai, masuk ke direktori proyek:
 
-This project uses Firebase for authentication and database services. You need to set up a Firebase project to run the application.
+```bash
+cd ChatBox
+```
 
-#### a. Get `google-services.json`
+### 2. Penyiapan Firebase
 
-The `google-services.json` file contains the configuration for the Firebase project. You can get this file from the **OTHING PROJECTS** WhatsApp group.
+Proyek ini menggunakan Firebase untuk layanan autentikasi dan basis data. Anda perlu menyiapkan proyek Firebase agar aplikasi dapat berjalan.
 
-**Please download the `google-services.json` file from the group chat.**
+#### a. Dapatkan `google-services.json`
 
-#### b. Place `google-services.json`
+Berkas `google-services.json` berisi konfigurasi untuk proyek Firebase Anda. Berkas ini sangat penting untuk menghubungkan aplikasi Android Anda dengan proyek Firebase.
 
-After downloading the file, you need to place it in the `app` directory of the project.
+**Silakan unduh berkas `google-services.json` dari grup WhatsApp "OTHING PROJECTS".** Pastikan Anda mendapatkan berkas yang paling baru dan benar.
 
-If you are using a file explorer, navigate to the `ChatBox` folder you cloned, and then open the `app` folder. Place the `google-services.json` file there.
+#### b. Tempatkan `google-services.json`
 
-The exact path from the root of the project is: `ChatBox/app/google-services.json`
+Setelah mengunduh berkas `google-services.json`, Anda perlu menempatkannya di direktori `app` dari proyek Anda.
 
-### 3. Build and Run the Project
+*   Buka folder proyek `ChatBox` yang baru saja Anda kloning.
+*   Masuk ke dalam folder `app`.
+*   Salin (copy) berkas `google-services.json` yang telah Anda unduh ke dalam folder `app` ini.
 
-Once you have placed the `google-services.json` file in the correct directory, you can open the project in Android Studio and run it on an emulator or a physical device.
+Jalur lengkap dari root proyek adalah: `ChatBox/app/google-services.json`
 
-1.  Open Android Studio.
-2.  Click on **"Open"**.
-3.  Navigate to the cloned `ChatBox` directory and select it.
-4.  Let Android Studio sync the project.
-5.  Click on the **"Run 'app'"** button (the green play icon) to build and run the application.
+**Penting:** Pastikan nama berkasnya tetap `google-services.json` dan tidak ada angka tambahan (misalnya `google-services(1).json`). Jika ada, ganti namanya menjadi `google-services.json`.
+
+### 3. Bangun dan Jalankan Proyek
+
+Setelah Anda menempatkan berkas `google-services.json` di direktori yang benar, Anda dapat membuka proyek di Android Studio dan menjalankannya di emulator atau perangkat fisik.
+
+1.  **Buka Android Studio:** Luncurkan Android Studio.
+2.  **Buka Proyek:**
+    *   Jika Anda melihat layar selamat datang, pilih **"Open"** atau **"Open an existing Android Studio project"**.
+    *   Navigasikan ke direktori `ChatBox` yang telah Anda kloning dan pilih folder tersebut.
+3.  **Sinkronisasi Gradle:** Android Studio akan secara otomatis mulai menyinkronkan proyek dengan Gradle. Tunggu hingga proses ini selesai. Ini mungkin memakan waktu beberapa menit tergantung pada koneksi internet Anda dan spesifikasi komputer.
+4.  **Jalankan Aplikasi:** Setelah sinkronisasi selesai dan tidak ada kesalahan yang terlihat, klik tombol **"Run 'app'"** (ikon panah hijau di toolbar atas) untuk membangun dan menjalankan aplikasi di emulator atau perangkat Android yang terhubung.
+
+Jika Anda mengalami masalah selama proses penyiapan, pastikan Anda telah mengikuti semua langkah dengan cermat dan berkas `google-services.json` berada di lokasi yang benar.
