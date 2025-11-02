@@ -1,60 +1,66 @@
 # ChatBox
 
-Aplikasi obrolan sederhana untuk Android, dibangun dengan Jetpack Compose dan Firebase.
+Aplikasi ChatBox adalah aplikasi obrolan sederhana yang dibangun menggunakan Android dan Firebase.
 
-## Fitur
+## Persyaratan
 
-*   Registrasi dan login pengguna dengan Firebase Authentication.
-*   Obrolan satu-ke-satu dengan pengguna lain.
-*   Pesan real-time dengan Firebase Realtime Database.
+*   Android Studio
+*   Firebase Project
+*   JDK (Java Development Kit)
 
-## Petunjuk Penyiapan
+## Langkah-langkah Setup Proyek
 
-### 1. Kloning Repositori
+Ikuti langkah-langkah di bawah ini untuk menyiapkan dan menjalankan proyek ChatBox di lingkungan pengembangan lokal Anda.
 
-Pertama, kloning repositori ini ke komputer lokal Anda menggunakan perintah berikut di terminal atau Git Bash:
+### 1. Clone Repositori
 
-```bash
-git clone https://github.com/syahrulhuda/ChatBox.git
-```
-
-Setelah kloning selesai, masuk ke direktori proyek:
+Pertama, clone repositori ini ke mesin lokal Anda menggunakan Git:
 
 ```bash
+git clone <URL_REPOSITORI_ANDA>
 cd ChatBox
 ```
 
-### 2. Penyiapan Firebase
+Ganti `<URL_REPOSITORI_ANDA>` dengan URL repositori Git yang sebenarnya.
 
-Proyek ini menggunakan Firebase untuk layanan autentikasi dan basis data. Anda perlu menyiapkan proyek Firebase agar aplikasi dapat berjalan.
+### 2. Dapatkan `google-services.json`
 
-#### a. Dapatkan `google-services.json`
+Aplikasi ini menggunakan Firebase untuk otentikasi dan database. Anda perlu mengunduh file konfigurasi `google-services.json` dari proyek Firebase Anda dan menempatkannya di lokasi yang benar.
 
-Berkas `google-services.json` berisi konfigurasi untuk proyek Firebase Anda. Berkas ini sangat penting untuk menghubungkan aplikasi Android Anda dengan proyek Firebase.
+**Instruksi untuk mendapatkan `google-services.json`:**
 
-**Silakan unduh berkas `google-services.json` dari grup WhatsApp "OTHING PROJECTS".** Pastikan Anda mendapatkan berkas yang paling baru dan benar.
+1.  **Minta file dari grup WA OTHING PROJECTS.** File ini berisi kredensial yang diperlukan aplikasi untuk berkomunikasi dengan Firebase.
+2.  Setelah Anda mendapatkan file `google-services.json`, **salin file tersebut ke direktori `app/`** di dalam proyek Anda.
 
-#### b. Tempatkan `google-services.json`
+    Contoh: `d:\AndroidStudioProjects\ChatBox\app\google-services.json`
 
-Setelah mengunduh berkas `google-services.json`, Anda perlu menempatkannya di direktori `app` dari proyek Anda.
+    Pastikan nama file adalah `google-services.json` (huruf kecil semua).
 
-*   Buka folder proyek `ChatBox` yang baru saja Anda kloning.
-*   Masuk ke dalam folder `app`.
-*   Salin (copy) berkas `google-services.json` yang telah Anda unduh ke dalam folder `app` ini.
+### 3. Buka Proyek di Android Studio
 
-Jalur lengkap dari root proyek adalah: `ChatBox/app/google-services.json`
+1.  Buka Android Studio.
+2.  Pilih `File > Open` dan navigasikan ke direktori `ChatBox` yang baru saja Anda clone.
+3.  Pilih file `build.gradle.kts` di root proyek dan klik `Open`.
 
-**Penting:** Pastikan nama berkasnya tetap `google-services.json` dan tidak ada angka tambahan (misalnya `google-services(1).json`). Jika ada, ganti namanya menjadi `google-services.json`.
+Android Studio akan mengimpor proyek dan menyinkronkan dependensi Gradle. Ini mungkin memerlukan waktu beberapa menit.
 
-### 3. Bangun dan Jalankan Proyek
+### 4. Sinkronkan Proyek dengan File Gradle
 
-Setelah Anda menempatkan berkas `google-services.json` di direktori yang benar, Anda dapat membuka proyek di Android Studio dan menjalankannya di emulator atau perangkat fisik.
+Setelah proyek terbuka, pastikan untuk menyinkronkan proyek dengan file Gradle. Anda mungkin melihat pesan "Sync Project with Gradle Files" di bilah notifikasi Android Studio, atau Anda bisa melakukannya secara manual dengan mengklik ikon gajah di toolbar.
 
-1.  **Buka Android Studio:** Luncurkan Android Studio.
-2.  **Buka Proyek:**
-    *   Jika Anda melihat layar selamat datang, pilih **"Open"** atau **"Open an existing Android Studio project"**.
-    *   Navigasikan ke direktori `ChatBox` yang telah Anda kloning dan pilih folder tersebut.
-3.  **Sinkronisasi Gradle:** Android Studio akan secara otomatis mulai menyinkronkan proyek dengan Gradle. Tunggu hingga proses ini selesai. Ini mungkin memakan waktu beberapa menit tergantung pada koneksi internet Anda dan spesifikasi komputer.
-4.  **Jalankan Aplikasi:** Setelah sinkronisasi selesai dan tidak ada kesalahan yang terlihat, klik tombol **"Run 'app'"** (ikon panah hijau di toolbar atas) untuk membangun dan menjalankan aplikasi di emulator atau perangkat Android yang terhubung.
+### 5. Jalankan Aplikasi
 
-Jika Anda mengalami masalah selama proses penyiapan, pastikan Anda telah mengikuti semua langkah dengan cermat dan berkas `google-services.json` berada di lokasi yang benar.
+Setelah sinkronisasi Gradle selesai dan tidak ada kesalahan, Anda dapat menjalankan aplikasi:
+
+1.  Hubungkan perangkat Android fisik Anda atau mulai emulator Android.
+2.  Klik tombol `Run` (ikon panah hijau) di toolbar Android Studio.
+3.  Pilih perangkat atau emulator target Anda.
+
+Aplikasi akan dibangun dan diinstal pada perangkat atau emulator yang dipilih.
+
+---
+
+**Catatan Penting:**
+
+*   Jangan pernah membagikan file `google-services.json` Anda secara publik atau mengunggahnya ke repositori Git publik. File ini berisi informasi sensitif tentang proyek Firebase Anda.
+*   Jika Anda membuat proyek Firebase baru, pastikan untuk menambahkan aplikasi Android Anda ke dalamnya dan ikuti petunjuk untuk mengunduh `google-services.json` yang sesuai.
