@@ -20,6 +20,12 @@ import com.example.chatbox.ui.theme.ChatBoxTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
+data class Message(
+    val senderId: String = "",
+    val text: String = "",
+    val timestamp: Long = 0
+)
+
 class ChatActivity : ComponentActivity() {
 
     private lateinit var database: DatabaseReference
