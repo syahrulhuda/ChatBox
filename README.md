@@ -2,6 +2,21 @@
 
 Aplikasi ChatBox adalah aplikasi obrolan sederhana yang dibangun menggunakan Android dan Firebase.
 
+## Teknologi yang Digunakan
+
+*   **Kotlin**: Bahasa pemrograman utama untuk pengembangan Android.
+*   **Jetpack Compose**: Toolkit UI modern untuk membangun antarmuka pengguna Android secara deklaratif.
+*   **Firebase Authentication**: Untuk manajemen pengguna (daftar, masuk, dll.).
+*   **Firebase Realtime Database**: Untuk menyimpan dan menyinkronkan data obrolan secara real-time.
+*   **Gradle Kotlin DSL**: Untuk konfigurasi build yang lebih aman dan ekspresif.
+*   **Firebase Bill of Materials (BoM)**: Untuk mengelola versi dependensi Firebase secara konsisten.
+
+## Fitur Aplikasi
+
+*   **Autentikasi Pengguna**: Pengguna dapat mendaftar dan masuk menggunakan email dan kata sandi.
+*   **Obrolan Real-time**: Mengirim dan menerima pesan secara instan.
+*   **Daftar Pengguna**: Melihat daftar pengguna yang terdaftar.
+
 ## Persyaratan
 
 *   Android Studio
