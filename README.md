@@ -10,6 +10,7 @@ Aplikasi ChatBox adalah aplikasi obrolan sederhana yang dibangun menggunakan And
 *   **Firebase Realtime Database**: Untuk menyimpan dan menyinkronkan data obrolan secara real-time.
 *   **Gradle Kotlin DSL**: Untuk konfigurasi build yang lebih aman dan ekspresif.
 *   **Firebase Bill of Materials (BoM)**: Untuk mengelola versi dependensi Firebase secara konsisten.
+*   **Firebase SDKs (Non-KTX)**: Menggunakan SDK Firebase standar tanpa ekstensi KTX, karena fungsionalitas Kotlin telah diintegrasikan langsung ke dalam SDK utama.
 
 ## Fitur Aplikasi
 
@@ -88,6 +89,47 @@ lifecycleViewmodelCompose = "2.9.4"
 ```
 
 Pastikan versi ini konsisten dengan `lifecycleRuntimeKtx` yang sudah ada. Setelah menambahkan baris ini, lakukan "Sync Project with Gradle Files" di Android Studio.
+
+---
+
+### Error: `Unresolved reference 'Firebase'` atau `firebase-auth-ktx` tidak ditemukan
+
+Jika Anda mengalami error `Unresolved reference 'Firebase'` di kode Kotlin Anda, atau error build yang menunjukkan `firebase-auth-ktx` tidak ditemukan, ini kemungkinan karena ekstensi KTX untuk Firebase Authentication tidak lagi diperlukan dan telah dihapus. Fungsionalitas Kotlin sekarang terintegrasi langsung ke dalam SDK Firebase utama.
+
+**Solusi:**
+
+1.  **Perbarui `gradle/libs.versions.toml`:**
+    Pastikan Anda memiliki entri `firebase-auth` di bagian `[libraries]` tanpa referensi versi, karena versi akan dikelola oleh Firebase BoM:
+
+    ```toml
+    firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
+    ```
+
+2.  **Perbarui `app/build.gradle.kts`:**
+    Ganti dependensi `firebase-auth-ktx` yang lama dengan `firebase-auth` yang baru:
+
+    ```kotlin
+    // Hapus baris ini:
+    // implementation("com.google.firebase:firebase-auth-ktx")
+    // Ganti dengan:
+    implementation(libs.firebase.auth)
+    ```
+
+3.  **Perbarui Kode Kotlin Anda (misalnya, `MainActivity.kt`):**
+    Hapus impor KTX yang tidak lagi diperlukan dan inisialisasi `FirebaseAuth` menggunakan `getInstance()`:
+
+    ```kotlin
+    // Hapus impor ini:
+    // import com.google.firebase.auth.ktx.auth
+    // import com.google.firebase.ktx.Firebase
+
+    // Ganti inisialisasi:
+    // auth = Firebase.auth
+    // Dengan:
+    auth = FirebaseAuth.getInstance()
+    ```
+
+Setelah melakukan perubahan ini, lakukan "Sync Project with Gradle Files" di Android Studio.
 
 ---
 
